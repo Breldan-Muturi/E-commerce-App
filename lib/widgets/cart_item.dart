@@ -81,7 +81,7 @@ class CartItem extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             subtitle: Text(
-              'Total: \$${(price * quantity)}',
+              'Total: \$${(price * quantity).toStringAsFixed(2)}',
               style: TextStyle(color: Colors.white),
             ),
             trailing: Text(
