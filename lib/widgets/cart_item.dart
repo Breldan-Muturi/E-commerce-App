@@ -36,11 +36,11 @@ class CartItem extends StatelessWidget {
             builder: (ctx) => AlertDialog(
                   title: Text(
                     'Are you Sure',
-                    style: TextStyle(color: Colors.white),
+                    
                   ),
                   content: Text(
                     'Do you want to remove the item from the cart?',
-                    style: TextStyle(color: Colors.white),
+                    
                   ),
                   actions: <Widget>[
                     FlatButton(
@@ -78,15 +78,15 @@ class CartItem extends StatelessWidget {
             ),
             title: Text(
               title,
-              style: TextStyle(color: Colors.white),
+              
             ),
             subtitle: Text(
               'Total: \$${(price * quantity).toStringAsFixed(2)}',
-              style: TextStyle(color: Colors.white),
+              
             ),
             trailing: Text(
               '$quantity x',
-              style: TextStyle(color: Colors.white),
+              
             ),
           ),
         ),
