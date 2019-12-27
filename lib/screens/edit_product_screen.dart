@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopapp/models/location_data.dart';
 import 'package:shopapp/providers/product.dart';
 import 'package:shopapp/providers/products.dart';
+import 'package:shopapp/widgets/location_input.dart';
 
 class EditProductScreen extends StatefulWidget {
   static const routeName = '/edit-product';
@@ -16,6 +18,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
+  LocationData _pickedLocation;
   var _editedProduct = Product(
     id: null,
     title: '',
@@ -83,9 +86,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
+  void _selectPlace(double lat, double lng){
+    _pickedLocation = LocationData(latitude: lat, longitude: lng);
+  }
+
   Future<void> _saveForm() async {
     final isValid = _form.currentState.validate();
-    if (!isValid) {
+    if (!isValid || _pickedLocation == null) {
       return;
     }
     _form.currentState.save();
@@ -94,7 +101,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     });
     if (_editedProduct.id != null) {
       await Provider.of<Products>(context, listen: false)
-          .updateProducts(_editedProduct.id, _editedProduct);
+          .updateProducts(_editedProduct.id, _editedProduct,);
     } else {
       try {
         await Provider.of<Products>(context, listen: false)
@@ -116,12 +123,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
           ),
         );
       } 
-      // finally {
-        // setState(() {
-          // _isLoading = false;
-        // });
-        // Navigator.of(context).pop();
-      // }
     }
     setState(() {
       _isLoading = false;
@@ -266,7 +267,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 },
                                 validator: (value) {
                                   if (value.isEmpty) {
-                                    return 'Please provide an Image Provider';
+                                    return 'Please provide an Image Url';
                                   }
                                   if (!value.startsWith('http') &&
                                       !value.startsWith('https')) {
@@ -292,6 +293,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 10,),
+                      LocationInput(_selectPlace),
                     ],
                   ),
                 ),
